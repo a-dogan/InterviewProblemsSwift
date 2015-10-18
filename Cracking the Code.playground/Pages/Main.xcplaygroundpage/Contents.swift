@@ -1,10 +1,15 @@
-//: Playground - noun: a place where people can play
 
-import UIKit
+//: # Find the count of the Longest increasing subsequence in the array
+/*:
 
+Example:
+for [8, 19, 5, 4, 9, 16]
+Longest increasing would be 8, 9, 16 or 4, 9, 16 also works
 
-//: # Longest subsequence find the longest increasing subsequence in the array
+[7, 3, 2, 8, 10, 12, 5]
+Longest increasing would be 7, 8, 10, 12 or 2, 8, 10, 12
 
+*/
 func longestSubSequence(numbers:[Int]) -> Int{
     
     var maxSequence = -1
@@ -44,10 +49,12 @@ func longestSubSequence(numbers:[Int]) -> Int{
 //longestSubSequence([8,9,3,10])
 
 /*:
- # Find the minimum number of coins needs to make a target
+ # Find the minimum number of coins needs to make a given amount
  * Given coins of different denominations, example [1,2,3]
  * Given a target value to find using the minimum number of coins given
 */
+
+//: Recursive solution O(n!) running time
 func minimunNumberOfCoins(coins:[Int], target:Int) -> Int {
     
     //: Test for the min coin
