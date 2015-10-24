@@ -57,20 +57,18 @@ func longestSubSequence(numbers:[Int]) -> Int{
 //: Recursive solution O(n!) running time
 func minimunNumberOfCoins(coins:[Int], target:Int) -> Int {
     
-    //: Test for the min coin
-    for coin in coins {
-        if (target - coin) == 0 {
-            return 1
-        }
-    }
-    
     var minCoin = Int.max
     
     for var i=0; i<coins.count; i++ {
-        let val = minimunNumberOfCoins(coins, target: (target - coins[i]))
+        var val = 1
         
-        if val + 1 < minCoin {
-            minCoin = val+1
+        if val >= coins[i] {
+            val += 1
+            val
+        }
+        
+        if val < minCoin {
+            minCoin = val
         }
         
     }
@@ -78,7 +76,42 @@ func minimunNumberOfCoins(coins:[Int], target:Int) -> Int {
     return minCoin
 }
 
-minimunNumberOfCoins([1,2,3], target: 7)
+/**
+let target=4
+let coins=[1,2,4]
+minimunNumberOfCoins(coins, target: target)
+**/
 
+
+/*: 
+  Get the fibonacci series for a number.
+  Iterative Fibonacci Series
+*/
+
+func printFibonacci(num:Int) {
+    
+    if num - 1 > Int.max {
+        print(0)
+    }
+    
+    var fibValues = [Int](count: num+1, repeatedValue: 0)
+    
+    fibValues[0]=0
+    fibValues[1]=1
+    
+    //OR...var fibValues = [0:0, 0:1]
+    
+    for var i=0; i<=num; i++ {
+        if i==0 || i==1 {
+            continue
+        }
+
+        fibValues[i] = fibValues[i-1] + fibValues[i-2]
+    }
+    
+    print(fibValues, separator: ",", terminator: "")
+}
+
+//printFibonacci(20)
 
 
