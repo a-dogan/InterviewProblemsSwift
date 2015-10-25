@@ -114,4 +114,57 @@ func printFibonacci(num:Int) {
 
 //printFibonacci(20)
 
+/*:
+Find the longgest common substring for two strings. DP method
+*/
+
+func findLongestCommonSubstring(string1:String, string2:String) -> Int {
+    let rowsString1 = string1.characters.count+1
+    let columnsString2 = string2.characters.count+1
+    
+    var matrix = Array(count:rowsString1, repeatedValue:Array(count:columnsString2, repeatedValue:0))
+    
+    var maxLength = 0
+    
+    for var i=1; i<rowsString1; i++ {
+        let char1 = string1[string1.characters.startIndex.advancedBy(i-1)]
+        
+        
+        for var j=1; j<columnsString2; j++ {
+            let char2 = string2[string2.characters.startIndex.advancedBy(j-1)]
+            
+            if char1 == char2 {
+                matrix[i][j] = 1 + matrix[i-1][j-1]
+                
+                let lengthNow = matrix[i][j]
+                
+                if maxLength < lengthNow {
+                    maxLength = lengthNow
+                }
+            }
+        
+        }
+    }
+    
+    return maxLength
+}
+
+/**
+var string1=""
+var string2=""
+var msg = "for " + string1 + " " + string2
+var val = findLongestCommonSubstring(string1, string2: string2)
+print("Should be 0 \(msg):",val)
+
+string1 = "bgt"
+string2 = "xxabc"
+val = findLongestCommonSubstring(string1, string2: string2)
+print("Should be 1 \(msg):",val)
+
+string1 = "xxabcdeft"
+string2 = "abcdefssss"
+val = findLongestCommonSubstring(string1, string2: string2)
+print("Should be 6 \(msg):",val)
+**/
+
 
