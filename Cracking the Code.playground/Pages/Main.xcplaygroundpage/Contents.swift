@@ -129,7 +129,6 @@ func findLongestCommonSubstring(string1:String, string2:String) -> Int {
     for var i=1; i<rowsString1; i++ {
         let char1 = string1[string1.characters.startIndex.advancedBy(i-1)]
         
-        
         for var j=1; j<columnsString2; j++ {
             let char2 = string2[string2.characters.startIndex.advancedBy(j-1)]
             
@@ -149,22 +148,143 @@ func findLongestCommonSubstring(string1:String, string2:String) -> Int {
     return maxLength
 }
 
-/**
-var string1=""
-var string2=""
-var msg = "for " + string1 + " " + string2
-var val = findLongestCommonSubstring(string1, string2: string2)
-print("Should be 0 \(msg):",val)
 
-string1 = "bgt"
-string2 = "xxabc"
-val = findLongestCommonSubstring(string1, string2: string2)
-print("Should be 1 \(msg):",val)
+//var string1=""
+//var string2=""
+//var msg = "for " + string1 + " " + string2
+//var val = findLongestCommonSubstring(string1, string2: string2)
+//print("Should be 0 \(msg):",val)
+//
+//string1 = "bgt"
+//string2 = "xxabc"
+//val = findLongestCommonSubstring(string1, string2: string2)
+//print("Should be 1 \(msg):",val)
+//
+//string1 = "xxabcdeft"
+//string2 = "abcdefssss"
+//val = findLongestCommonSubstring(string1, string2: string2)
+//print("Should be 6 \(msg):",val)
 
-string1 = "xxabcdeft"
-string2 = "abcdefssss"
-val = findLongestCommonSubstring(string1, string2: string2)
-print("Should be 6 \(msg):",val)
-**/
+
+ /*:
+ Find the longgest common substring for two strings. DP method
+ */
+
+func findLongestCommonSubstring(string1:String, string2:String) -> String {
+    let rowsString1 = string1.characters.count+1
+    let columnsString2 = string2.characters.count+1
+    var endposition = 0
+    
+    var matrix = Array(count:rowsString1, repeatedValue:Array(count:columnsString2, repeatedValue:0))
+    
+    var maxLength = 0
+    
+    for var i=1; i<rowsString1; i++ {
+        let char1 = string1[string1.characters.startIndex.advancedBy(i-1)]
+        
+        for var j=1; j<columnsString2; j++ {
+            let char2 = string2[string2.characters.startIndex.advancedBy(j-1)]
+            
+            if char1 == char2 {
+                matrix[i][j] = 1 + matrix[i-1][j-1]
+                
+                let lengthNow = matrix[i][j]
+                
+                if maxLength < lengthNow {
+                    maxLength = lengthNow
+                    endposition = j
+                }
+            }
+            
+        }
+    }
+    
+    //NOT COMPLETE
+    return ""
+}
 
 
+/*:
+Find the longest increasing sub sequece
+* example given [3, 4, -1, 0, 6, 2, 3]
+* longest increasing sub sequence is 4 = [-1, 0, 2, 3]
+*/
+func longestIncreasingSubSequence(input:[Int]) -> Int {
+    var longest = Int.min
+    
+    var increasing = [Int](count: input.count, repeatedValue: 1)
+    
+    var fast = 1
+    var slow = 0
+    
+    while fast <= input.count-1 {
+        
+        if input[fast] > input[slow] {
+            //only increase if the prev longest is greater then current longest
+            if increasing[slow] + 1 > increasing[fast] {
+                increasing[fast] = increasing[slow] + 1
+                longest = increasing[fast]
+            }
+        }
+
+        slow++
+        
+        if slow == fast {
+            fast++
+            slow = 0
+        }
+    }
+    
+    return longest
+}
+
+longestIncreasingSubSequence([3, 4, -1, 5])
+longestIncreasingSubSequence([3, 4, -1, 0, 6, 2, 3])
+
+/*:
+Find the longest bitonic
+* example given [12, 4, 8, 90, 45, 23]
+* longest bittonic 4, 78, 90, 45, 23
+*/
+
+
+func longestBittonic(input:[Int]) -> [Int] {
+    
+    var increasing = [Int](count: input.count, repeatedValue: 1)
+    var decreasing = [Int](count: input.count, repeatedValue: 1)
+    var maxBittonic = -1
+    
+    for var i=1; i<input.count; i++ {
+        
+        if input[i] > input[i-1] {
+            increasing[i] += 1
+        }
+    }
+    
+    //decreasing array
+    var minimumDecreasing = input[input.count - 1]
+    
+    for var j=input.count-2; j>=0; j-- {
+        if input[j+1] < minimumDecreasing {
+                minimumDecreasing = input[j+1]
+        }
+        
+        if input[j] < input[j+1] && input[j] < minimumDecreasing {
+            decreasing[j] += 1
+        }
+    }
+    
+    for var k = 0; k < increasing.count; k++ {
+        
+        let newValue = increasing[k] + decreasing[k]
+        if maxBittonic < newValue {
+            maxBittonic = newValue
+        }
+        
+    }
+    
+    return [maxBittonic]
+}
+
+//longestBittonic([1, 2, 3, -1, -1])
+//longestBittonic([1, 1, 1, 1, 1])
