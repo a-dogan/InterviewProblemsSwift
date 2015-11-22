@@ -4,5 +4,6 @@
         <page name='Main'/>
         <page name='CTCI Probs'/>
         <page name='scratch'/>
+        <page name='Trees'/>
     </pages>
 </playground>

@@ -28,6 +28,8 @@ func rotateArray(input:[[Character]]) {
     
     for var i=0; i < input.count; i++ {
         for var j=0; j < input[i].count; j++ {
+            print(i, j, ",")
+            
             transposed[rowLength - i - 1][j] = input[j][i]
         }
         
@@ -37,6 +39,6 @@ func rotateArray(input:[[Character]]) {
 }
 
 
-var inputArray:[[Character]] = [["a","b"],["c","d"]]
+var inputArray:[[Character]] = [["a","b", "c"],["d","e","f"]]
 
 rotateArray(inputArray)
