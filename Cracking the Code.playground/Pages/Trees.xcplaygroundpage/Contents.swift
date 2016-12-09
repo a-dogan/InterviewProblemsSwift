@@ -14,16 +14,16 @@ enum TreeOrderPrint {
         switch self {
             case .PreOrder:
                 print(n.data)
-                printTree(n.left)
-                printTree(n.right)
+                printTree(node: n.left)
+                printTree(node: n.right)
             case .PostOrder:
-                printTree(n.left)
-                printTree(n.right)
+                printTree(node:n.left)
+                printTree(node:n.right)
                 print(n.data)
             case .InOrder:
-                printTree(n.left)
+                printTree(node:n.left)
                 print(n.data)
-                printTree(n.right)
+                printTree(node:n.right)
         }
     }
 }
@@ -31,7 +31,7 @@ enum TreeOrderPrint {
 class Node  {
     var left:Node?
     var right:Node?
-    var data:Int?
+    var data:Int
     
     init(left:Node?, right:Node?, value:Int) {
         self.left = left
@@ -44,33 +44,44 @@ class Node  {
     }
 }
 
-var node1 = Node(left:Node(value:7), right:Node(value:9), value:5)
+var node1 = Node(left:Node(value:3), right:Node(value:7), value:5)
 var node2 = Node(left:nil, right:Node(value:16), value:11)
 var root = Node(left:node1, right:node2, value: 10)
 
 
+var rootIsBst = Node(left:Node(left:nil, right:nil, value:11), right:Node(left:nil, right:nil, value:11), value: 10)
 
-func printTree(node:Node?) {
-    
+func isBst(node:Node?, min:Int, max:Int) -> Bool {
     guard let n = node else {
-        return
+        return true
     }
     
-    printTree(n.left)
-    print(n.data)
-    printTree(n.right)
-
+    if (n.data <= min || n.data > max) {
+        
+        return false
+    }
+    
+    return isBst(node: n.left, min: min, max: n.data) && isBst(node:n.right, min: n.data, max: max)
 }
 
+
+isBst(node:root, min: Int.min, max: Int.max)
+
+/**
 /*:
-    InOrder
+InOrder
 */
-//TreeOrderPrint.InOrder.printTree(root)
+TreeOrderPrint.InOrder.printTree(root)
+
 /*:
 PreOrder
 */
+
 TreeOrderPrint.PreOrder.printTree(root)
 /*:
 PostOrder
 */
+
 TreeOrderPrint.PostOrder.printTree(root)
+
+**/
